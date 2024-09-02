@@ -4,6 +4,7 @@ var imgpath="https://image.tmdb.org/t/p/w1280";
 var respdata=`helloalto111`;
 var searchform=document.getElementsByClassName("search-form")[0];
 var searchinput=document.getElementsByClassName("search")[0];
+var movieExpandContainer=document.getElementById('movie-expand-container');
 
 function getClassName(va){
     if(va>=8){
@@ -31,16 +32,21 @@ async function getMovies(x){
         const movieEl=document.createElement('div');
         movieEl.classList.add('movie');
         movieEl.innerHTML=`
-            <img src="${imgpath}${movie.poster_path}" alt="Movie Poster">
-            <div class="movie-info">
-                <p>${movie.original_title}</p>
-                <span class="${getClassName(movie.vote_average)}">${movie.vote_average}</span>
+            <div class="movie-info-container">
+                <img src="${imgpath}${movie.poster_path}" alt="Movie Poster">
+                <div class="movie-info">
+                    <p>${movie.original_title}</p>
+                    <span class="${getClassName(movie.vote_average)}">${movie.vote_average}</span>
+                </div>
+                <div class="overlay">${movie.overview}</div>
             </div>
-            <div class="overlay">${movie.overview}</div>
         `;
-        document.querySelector('.main').appendChild(movieEl);
+        movieEl.addEventListener('click', function() {
+            //movieExpandContainer.style.display = 'flex';
         });
-    }
+        document.querySelector('.main').appendChild(movieEl);
+    });
+}
 
 getMovies("home");
 
@@ -55,6 +61,18 @@ searchform.addEventListener('submit',(e)=>{
         searchinput.value="";
     }
 })
+
+document.getElementById('closeBtn').addEventListener('click', function() {
+    movieExpandContainer.style.display = 'none';
+    console.log('clicked!!!');
+});
+
+movieExpandContainer.addEventListener('click', function(event) {
+    if (event.target === movieExpandContainer) {
+        movieExpandContainer.style.display = 'none';
+
+    }
+});
 
 
 
